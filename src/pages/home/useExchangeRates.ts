@@ -27,7 +27,11 @@ const parseExchangeRatesResponse = (text: string): ExchangeRate[] => {
 };
 
 const fetchExchangeRates = async (): Promise<ExchangeRate[]> => {
-  const response = await fetch("/api/exchange-rates");
+  const response = await fetch("/api/exchange-rates", {
+    headers: {
+      Accept: "text/plain",
+    },
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch exchange rates: ${response.statusText}`);
