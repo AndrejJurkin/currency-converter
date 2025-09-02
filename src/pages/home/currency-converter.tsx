@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { useState } from "react";
+import { useCurrencyConverter } from "./useCurrencyConverter";
 import { CurrencyInput } from "./currency-input";
 
 interface ExchangeRate {
@@ -10,15 +10,20 @@ interface ExchangeRate {
   rate: number;
 }
 
-interface CurrencyConverterProps {
-  exchangeRates: ExchangeRate[] | undefined;
+interface Props {
+  exchangeRates: ExchangeRate[];
 }
 
-export function CurrencyConverter({ exchangeRates }: CurrencyConverterProps) {
-  const [fromAmount, setFromAmount] = useState("");
-  const [toAmount, setToAmount] = useState("");
-  const [fromCurrency, setFromCurrency] = useState("USD");
-  const [toCurrency, setToCurrency] = useState("EUR");
+export function CurrencyConverter({ exchangeRates }: Props) {
+  const {
+    fromAmount,
+    toAmount,
+    toCurrency,
+    currencies,
+    handleFromAmountChange,
+    handleToAmountChange,
+    handleToCurrencyChange,
+  } = useCurrencyConverter(exchangeRates);
 
   return (
     <Converter>
@@ -26,18 +31,20 @@ export function CurrencyConverter({ exchangeRates }: CurrencyConverterProps) {
         <CurrencyInput
           label="Amount"
           value={fromAmount}
-          onChange={setFromAmount}
+          onChange={handleFromAmountChange}
           placeholder="Enter amount"
-          selectedCurrency={fromCurrency}
-          onCurrencyChange={setFromCurrency}
+          selectedCurrency="CZK"
+          disabled={true}
+          currencies={["CZK"]}
         />
         <CurrencyInput
           label="Converted to"
           value={toAmount}
-          onChange={setToAmount}
+          onChange={handleToAmountChange}
           placeholder="Converted amount"
           selectedCurrency={toCurrency}
-          onCurrencyChange={setToCurrency}
+          onCurrencyChange={handleToCurrencyChange}
+          currencies={currencies}
         />
       </InputsContainer>
     </Converter>

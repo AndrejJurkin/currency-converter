@@ -10,7 +10,7 @@ export function HomePage() {
     <Root>
       <Container>
         <Heading>Currency Converter</Heading>
-        <CurrencyConverter exchangeRates={exchangeRates} />
+        {exchangeRates && <CurrencyConverter exchangeRates={exchangeRates} />}
         <ExchangeRatesTable
           exchangeRates={exchangeRates || []}
           isLoading={query.isLoading}

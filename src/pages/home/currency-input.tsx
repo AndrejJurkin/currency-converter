@@ -1,15 +1,15 @@
 import { styled } from "styled-components";
 
-interface CurrencyInputProps {
+interface Props {
   label: string;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
   selectedCurrency?: string;
   onCurrencyChange?: (currency: string) => void;
+  disabled?: boolean;
+  currencies?: string[];
 }
-
-const currencies = ["USD", "EUR", "GBP", "JPY", "CAD"];
 
 export function CurrencyInput({
   label,
@@ -18,7 +18,9 @@ export function CurrencyInput({
   placeholder,
   selectedCurrency = "USD",
   onCurrencyChange,
-}: CurrencyInputProps) {
+  disabled = false,
+  currencies,
+}: Props) {
   return (
     <div>
       <Label>{label}</Label>
@@ -36,8 +38,9 @@ export function CurrencyInput({
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             onCurrencyChange?.(e.target.value)
           }
+          disabled={disabled}
         >
-          {currencies.map((currency) => (
+          {currencies?.map((currency) => (
             <option key={currency} value={currency}>
               {currency}
             </option>
@@ -90,6 +93,17 @@ const CurrencySelect = styled.select`
   color: black;
   cursor: pointer;
   margin-right: 16px;
+  width: 104px;
+  text-align: center;
+
+  &:disabled {
+    cursor: default;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: none;
+    padding-right: 32px;
+  }
 `;
 
 const Label = styled.label`
