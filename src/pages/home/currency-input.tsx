@@ -70,6 +70,7 @@ const InputContainer = styled.div`
 `;
 
 const Input = styled.input`
+  width: 100%;
   font-size: 1.25rem;
   padding: 12px 16px;
   border: none;

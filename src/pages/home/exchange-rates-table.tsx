@@ -21,28 +21,30 @@ export function ExchangeRatesTable({ exchangeRates, isLoading, error }: Props) {
       {isLoading && <LoadingText>Loading exchange rates...</LoadingText>}
       {error && <ErrorText>Error loading exchange rates</ErrorText>}
       {exchangeRates && (
-        <Table>
-          <thead>
-            <tr>
-              <th>Country</th>
-              <th>Currency</th>
-              <th>Amount</th>
-              <th>Code</th>
-              <th>Rate (CZK)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {exchangeRates.map((rate, index) => (
-              <tr key={index}>
-                <td>{rate.country}</td>
-                <td>{rate.currency}</td>
-                <td>{rate.amount}</td>
-                <td>{rate.code}</td>
-                <td>{rate.rate.toFixed(3)}</td>
+        <TableContainer>
+          <Table>
+            <thead>
+              <tr>
+                <th>Country</th>
+                <th>Currency</th>
+                <th>Amount</th>
+                <th>Code</th>
+                <th>Rate (CZK)</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {exchangeRates.map((rate, index) => (
+                <tr key={index}>
+                  <td>{rate.country}</td>
+                  <td>{rate.currency}</td>
+                  <td>{rate.amount}</td>
+                  <td>{rate.code}</td>
+                  <td>{rate.rate.toFixed(3)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableContainer>
       )}
     </RatesTable>
   );
@@ -52,6 +54,11 @@ const RatesTable = styled.div`
   width: 100%;
   max-width: 800px;
   margin-top: 32px;
+`;
+
+const TableContainer = styled.div`
+  overflow-x: auto;
+  border-radius: 8px;
 `;
 
 const TableHeading = styled.h2`
@@ -77,6 +84,7 @@ const ErrorText = styled.div`
 
 const Table = styled.table`
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   font-size: 0.9rem;
 
