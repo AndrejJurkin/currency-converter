@@ -8,7 +8,16 @@ interface ExchangeRate {
   rate: number;
 }
 
-const parseExchangeRatesResponse = (text: string): ExchangeRate[] => {
+export const useExchangeRates = () => {
+  const query = useQuery({
+    queryKey: ["exchangeRates"],
+    queryFn: fetchExchangeRates,
+  });
+
+  return [query.data, query] as const;
+};
+
+export const parseExchangeRatesResponse = (text: string): ExchangeRate[] => {
   const lines = text.trim().split("\n");
   const dataLines = lines.slice(2);
 
@@ -39,14 +48,4 @@ const fetchExchangeRates = async (): Promise<ExchangeRate[]> => {
 
   const text = await response.text();
   return parseExchangeRatesResponse(text);
-};
-
-export { parseExchangeRatesResponse };
-export const useExchangeRates = () => {
-  const query = useQuery({
-    queryKey: ["exchangeRates"],
-    queryFn: fetchExchangeRates,
-  });
-
-  return [query.data, query] as const;
 };
