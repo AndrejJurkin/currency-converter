@@ -8,17 +8,13 @@ interface ExchangeRate {
   rate: number;
 }
 
-interface ExchangeRatesTableProps {
+interface Props {
   exchangeRates: ExchangeRate[];
   isLoading: boolean;
   error: boolean;
 }
 
-export function ExchangeRatesTable({
-  exchangeRates,
-  isLoading,
-  error,
-}: ExchangeRatesTableProps) {
+export function ExchangeRatesTable({ exchangeRates, isLoading, error }: Props) {
   return (
     <RatesTable>
       <TableHeading>Exchange Rates</TableHeading>

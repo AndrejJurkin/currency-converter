@@ -5,7 +5,7 @@ import {
   reverseConvertCurrency,
   formatCurrencyValue,
   parseAmount,
-} from "./useCurrencyConverter";
+} from "../useCurrencyConverter";
 
 describe("Currency conversion utilities", () => {
   describe("roundToTwoDecimals", () => {
