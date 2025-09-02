@@ -1,10 +1,14 @@
-import "./App.css";
+import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { HomePage } from "./pages/home";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div>
-      <h1>Currency Converter</h1>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <HomePage />
+    </QueryClientProvider>
   );
 }
 
