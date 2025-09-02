@@ -56,6 +56,7 @@ export function useCurrencyConverter(exchangeRates: ExchangeRate[]) {
     toAmount,
     toCurrency,
     currencies,
+    conversionRate: ratesByCode[toCurrency] || 1,
     handleFromAmountChange,
     handleToAmountChange,
     handleToCurrencyChange,

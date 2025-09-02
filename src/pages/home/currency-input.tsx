@@ -9,6 +9,7 @@ interface Props {
   onCurrencyChange?: (currency: string) => void;
   disabled?: boolean;
   currencies?: string[];
+  conversionRateText?: string;
 }
 
 export function CurrencyInput({
@@ -20,6 +21,7 @@ export function CurrencyInput({
   onCurrencyChange,
   disabled = false,
   currencies,
+  conversionRateText,
 }: Props) {
   return (
     <div>
@@ -47,6 +49,9 @@ export function CurrencyInput({
           ))}
         </CurrencySelect>
       </InputContainer>
+      {conversionRateText && (
+        <ConversionRateText>{conversionRateText}</ConversionRateText>
+      )}
     </div>
   );
 }
@@ -112,4 +117,11 @@ const Label = styled.label`
   color: #374151;
   margin-bottom: 4px;
   display: block;
+`;
+
+const ConversionRateText = styled.div`
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 4px;
+  font-style: italic;
 `;

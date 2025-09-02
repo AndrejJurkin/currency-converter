@@ -20,6 +20,7 @@ export function CurrencyConverter({ exchangeRates }: Props) {
     toAmount,
     toCurrency,
     currencies,
+    conversionRate,
     handleFromAmountChange,
     handleToAmountChange,
     handleToCurrencyChange,
@@ -45,6 +46,9 @@ export function CurrencyConverter({ exchangeRates }: Props) {
           selectedCurrency={toCurrency}
           onCurrencyChange={handleToCurrencyChange}
           currencies={currencies}
+          conversionRateText={`1 CZK = ${conversionRate.toFixed(
+            3
+          )} ${toCurrency}`}
         />
       </InputsContainer>
     </Converter>
