@@ -33,6 +33,7 @@ export function CurrencyInput({
             onChange(e.target.value)
           }
           placeholder={placeholder}
+          type="number"
         />
         <Divider />
         <CurrencySelect
