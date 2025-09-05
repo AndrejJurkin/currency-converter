@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+import { useId, useRef } from "react";
 
 interface Props {
   label: string;
@@ -23,11 +24,16 @@ export function CurrencyInput({
   currencies,
   conversionRateText,
 }: Props) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const inputId = useId();
+
   return (
     <div>
-      <Label>{label}</Label>
+      <Label htmlFor={inputId}>{label}</Label>
       <InputContainer>
         <Input
+          ref={inputRef}
+          id={inputId}
           value={value}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             onChange(e.target.value)
@@ -119,6 +125,7 @@ const Label = styled.label`
   color: #374151;
   margin-bottom: 4px;
   display: block;
+  cursor: text;
 `;
 
 const ConversionRateText = styled.div`
