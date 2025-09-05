@@ -1,12 +1,5 @@
 import { styled } from "styled-components";
-
-interface ExchangeRate {
-  country: string;
-  currency: string;
-  amount: number;
-  code: string;
-  rate: number;
-}
+import type { ExchangeRate } from "./types";
 
 interface Props {
   exchangeRates: ExchangeRate[];

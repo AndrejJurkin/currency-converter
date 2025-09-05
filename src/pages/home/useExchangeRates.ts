@@ -1,12 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-
-interface ExchangeRate {
-  country: string;
-  currency: string;
-  amount: number;
-  code: string;
-  rate: number;
-}
+import type { ExchangeRate } from "./types";
 
 export const useExchangeRates = () => {
   const query = useQuery({

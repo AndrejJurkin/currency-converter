@@ -1,12 +1,5 @@
 import { useState } from "react";
-
-interface ExchangeRate {
-  country: string;
-  currency: string;
-  amount: number;
-  code: string;
-  rate: number;
-}
+import type { ExchangeRate } from "./types";
 
 export function useCurrencyConverter(exchangeRates: ExchangeRate[]) {
   const ratesByCode =
