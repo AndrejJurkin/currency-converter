@@ -60,12 +60,18 @@ export function useCurrencyConverter(exchangeRates: ExchangeRate[]) {
     setToAmount(formatCurrencyValue(result));
   };
 
+  const getConversionRate = () => {
+    const currencyData = ratesByCode[toCurrency];
+    if (!currencyData) return 1;
+    return currencyData.amount / currencyData.rate;
+  };
+
   return {
     fromAmount,
     toAmount,
     toCurrency,
     currencies,
-    conversionRate: ratesByCode[toCurrency]?.rate || 1,
+    conversionRate: getConversionRate(),
     handleFromAmountChange,
     handleToAmountChange,
     handleToCurrencyChange,
