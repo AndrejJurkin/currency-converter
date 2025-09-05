@@ -11,9 +11,9 @@ interface ExchangeRate {
 export function useCurrencyConverter(exchangeRates: ExchangeRate[]) {
   const ratesByCode =
     exchangeRates?.reduce((acc, rate) => {
-      acc[rate.code] = rate.rate;
+      acc[rate.code] = { rate: rate.rate, amount: rate.amount };
       return acc;
-    }, {} as Record<string, number>) || {};
+    }, {} as Record<string, { rate: number; amount: number }>) || {};
 
   const currencies = exchangeRates?.map((rate) => rate.code) || [];
 
@@ -22,32 +22,48 @@ export function useCurrencyConverter(exchangeRates: ExchangeRate[]) {
 
   const [toAmount, setToAmount] = useState(() => {
     const amount = parseAmount(fromAmount);
-    const rate = ratesByCode[toCurrency] || 1;
-    const result = convertCurrency(amount, rate);
+    const currencyData = ratesByCode[toCurrency] || { rate: 1, amount: 1 };
+    const result = convertCurrency({
+      amount,
+      rate: currencyData.rate,
+      currencyAmount: currencyData.amount,
+    });
     return formatCurrencyValue(result);
   });
 
   const handleFromAmountChange = (amount: string) => {
     setFromAmount(amount);
     const parsedAmount = parseAmount(amount);
-    const rate = ratesByCode[toCurrency] || 1;
-    const result = convertCurrency(parsedAmount, rate);
+    const currencyData = ratesByCode[toCurrency] || { rate: 1, amount: 1 };
+    const result = convertCurrency({
+      amount: parsedAmount,
+      rate: currencyData.rate,
+      currencyAmount: currencyData.amount,
+    });
     setToAmount(formatCurrencyValue(result));
   };
 
   const handleToAmountChange = (amount: string) => {
     setToAmount(amount);
     const parsedAmount = parseAmount(amount);
-    const rate = ratesByCode[toCurrency] || 1;
-    const result = reverseConvertCurrency(parsedAmount, rate);
+    const currencyData = ratesByCode[toCurrency] || { rate: 1, amount: 1 };
+    const result = reverseConvertCurrency({
+      amount: parsedAmount,
+      rate: currencyData.rate,
+      currencyAmount: currencyData.amount,
+    });
     setFromAmount(formatCurrencyValue(result));
   };
 
   const handleToCurrencyChange = (currency: string) => {
     setToCurrency(currency);
     const parsedAmount = parseAmount(fromAmount);
-    const rate = ratesByCode[currency] || 1;
-    const result = convertCurrency(parsedAmount, rate);
+    const currencyData = ratesByCode[currency] || { rate: 1, amount: 1 };
+    const result = convertCurrency({
+      amount: parsedAmount,
+      rate: currencyData.rate,
+      currencyAmount: currencyData.amount,
+    });
     setToAmount(formatCurrencyValue(result));
   };
 
@@ -56,7 +72,7 @@ export function useCurrencyConverter(exchangeRates: ExchangeRate[]) {
     toAmount,
     toCurrency,
     currencies,
-    conversionRate: ratesByCode[toCurrency] || 1,
+    conversionRate: ratesByCode[toCurrency]?.rate || 1,
     handleFromAmountChange,
     handleToAmountChange,
     handleToCurrencyChange,
@@ -67,18 +83,31 @@ export const roundToTwoDecimals = (value: number): number => {
   return Math.round(value * 100) / 100;
 };
 
-export const convertCurrency = (amount: number, rate: number): number => {
-  if (rate === 0) return 0;
-  const result = roundToTwoDecimals(amount / rate);
+export const convertCurrency = ({
+  amount,
+  rate,
+  currencyAmount = 1,
+}: {
+  amount: number;
+  rate: number;
+  currencyAmount?: number;
+}): number => {
+  if (rate === 0 || currencyAmount === 0) return 0;
+  const result = roundToTwoDecimals(amount * (currencyAmount / rate));
   return isNaN(result) ? 0 : result;
 };
 
-export const reverseConvertCurrency = (
-  amount: number,
-  rate: number
-): number => {
-  if (rate === 0) return 0;
-  const result = roundToTwoDecimals(amount * rate);
+export const reverseConvertCurrency = ({
+  amount,
+  rate,
+  currencyAmount = 1,
+}: {
+  amount: number;
+  rate: number;
+  currencyAmount?: number;
+}): number => {
+  if (rate === 0 || currencyAmount === 0) return 0;
+  const result = roundToTwoDecimals(amount * (rate / currencyAmount));
   return isNaN(result) ? 0 : result;
 };
 
